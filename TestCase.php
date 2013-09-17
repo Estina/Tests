@@ -6,6 +6,11 @@ use ReflectionProperty;
 
 class TestCase extends PHPUnit_Framework_TestCase
 {
+    public function getContainerMock()
+    {
+        return $this->getPlainMock('Symfony\Component\DependencyInjection\Container');
+    }
+
     public function getTempDir($name = '')
     {
         $dir = sys_get_temp_dir();
