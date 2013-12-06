@@ -47,6 +47,19 @@ class WebTestCase extends BaseWebTestCase
         $this->client->followRedirect();
     }
 
+    /**
+     * Run basic crud tests for given routes
+     * 
+     * @param string $routeIndex
+     * @param string $routeData
+     * @param string $routeNew
+     * @param string $routeEdit
+     * @param string $routeDelete
+     * @param string $nameField
+     * @param array $data data to test create action
+     * @param array $updateData data to test update action
+     * @return void
+     */
     protected function runBasicCrudTest($routeIndex,
         $routeData,
         $routeNew,
