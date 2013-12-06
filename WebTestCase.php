@@ -105,6 +105,7 @@ class WebTestCase extends BaseWebTestCase
     {
         $id = null;
         $name = null;
+
         foreach ($data->aaData as $item) {
             foreach ($item as $k => $val) {
                 if ($val == $nameGiven) {
