@@ -15,7 +15,9 @@ class WebTestCase extends BaseWebTestCase
     {
         parent::setUp();
 
-        $this->client = static::createClient();
+        $this->client = static::createClient(array(
+            'environment' => (isset($_ENV['SYMFONY_ENV']))?$_ENV['SYMFONY_ENV']:'test',
+        ));
         $this->router = $this->client->getContainer()->get('router');
 
         $this->loginClient('test@estina.lt', 'testuser');
@@ -49,7 +51,7 @@ class WebTestCase extends BaseWebTestCase
 
     /**
      * Run basic crud tests for given routes
-     * 
+     *
      * @param string $routeIndex
      * @param string $routeData
      * @param string $routeNew
@@ -65,8 +67,8 @@ class WebTestCase extends BaseWebTestCase
         $routeNew,
         $routeEdit,
         $routeDelete,
-        $nameField, 
-        $data, 
+        $nameField,
+        $data,
         $updateData)
     {
         // check if listing works
