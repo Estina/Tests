@@ -41,8 +41,8 @@ class WebTestCase extends BaseWebTestCase
         $button = $crawler->selectButton('_login');
         $this->assertGreaterThan(0, $button->count());
         $form = $button->form(array(
-            '_username'  => $useName,
-            '_password'  => $password,
+            'login[_username]'  => $useName,
+            'login[_password]'  => $password,
         ));
 
         $this->client->submit($form);
