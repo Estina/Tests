@@ -89,41 +89,21 @@ class TestCase extends PHPUnit_Framework_TestCase
         $refl->setValue($object, $value);
     }
 
-    protected function setter($object, $property)
+    /**
+     * Invoke private or protected method on object.
+     * 
+     * @param object $object Target object
+     * @param string $method Method name
+     * @param mixed $arg1 Arguments for method
+     * @return mixed
+     */
+    protected function invokeHiddenMethod($object, $method)
     {
-        $value = 'myValue';
-        
-        $method = 'set' . ucfirst($property);
-        $object->$method($value);
-        $this->assertEquals($value, $this->getHiddenProperty($object, $property));
-    }
+        $reflector = new \ReflectionClass($object);
+        $method = $reflector->getMethod($method);
+        $method->setAccessible(true);
 
-    protected function getter($object, $property)
-    {
-        $value = 'myValue';
-
-        $method = 'get' . ucfirst($property);
-        $this->setHiddenProperty($object, $property, $value);
-        $this->assertEquals($value, $object->$method());
-    }
-
-    protected function mutator($object, array $properties)
-    {
-        foreach ($properties as $name) {
-            $this->setter($object, $name);
-            $this->getter($object, $name);
-        }
-    }
-
-    protected function adder($object, $property, $value)
-    {
-        $method = 'add' . ucfirst($property);
-        $property .= 's';
-
-        $object->$method($value);
-
-        $data = $this->getHiddenProperty($object, $property);
-
-        $this->assertEquals($value, array_pop($data));
+        $args = array_slice(func_get_args(), 2);
+        return $method->invokeArgs($object, $args);
     }
 }
