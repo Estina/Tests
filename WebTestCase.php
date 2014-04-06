@@ -150,4 +150,21 @@ class WebTestCase extends BaseWebTestCase
         $response = $this->client->getResponse()->getContent();
         return json_decode($response);
     }
+     /**
+      * Basic response assertation with StatusCode & Content-type
+      * @param $response
+      * @param int $statusCode
+      * @param string $mime
+      */
+    protected function assertResponseType($response, $statusCode = 200, $contentType = 'application/json')
+    {
+        $this->assertEquals(
+            $statusCode, $response->getStatusCode(),
+            $response->getContent()
+        );
+        $this->assertTrue(
+            $response->headers->contains('Content-Type', $contentType),
+            $response->headers
+        );
+    }
 }
